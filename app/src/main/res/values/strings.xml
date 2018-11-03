@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WeatherMenuApp</string>
+    <string name="change_city">Change city</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="apiKey"> 9b2bbd6ae0f75974ec1b176d067b5145</string>
+    <string name="Celsius"> metric </string>
+
+    <string name="edit">Редактировать</string>
+    <string name="city">Город</string>
+    <string name="temperature">Температура</string>
+    <string name="degre">Градусов</string>
+
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pavel.weathermenuapp.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+
+    <Button
+        android:id="@+id/getWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Получить"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/textTemp"
+        android:layout_marginLeft="40dp" />
+
+    <TextView
+        android:id="@+id/tv_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
+
+
+    <TextView
+        android:id="@+id/textTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:layout_marginTop="8dp"
+        style="@style/TempStyle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temperature"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/textTemp"
+        app:layout_constraintLeft_toLeftOf="@id/textTemp"
+        app:layout_constraintRight_toRightOf="@id/textTemp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_degLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textTemp"
+        android:text="@string/degre"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@id/textTemp"
+        app:layout_constraintRight_toRightOf="@id/textTemp"
+        android:textSize="18sp" />
+</android.support.constraint.ConstraintLayout>

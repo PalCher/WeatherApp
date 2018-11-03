@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="text_style">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="TempStyle" parent="text_style">
+        <item name="android:textSize">72sp</item>
+    </style>
+</resources>
