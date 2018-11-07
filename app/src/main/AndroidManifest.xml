@@ -21,11 +21,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".GetWeatherService"
-            android:enabled="true"
-            android:exported="false">
-        </service>
-
     </application>
 
 </manifest>

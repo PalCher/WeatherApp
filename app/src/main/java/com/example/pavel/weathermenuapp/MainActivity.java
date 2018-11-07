@@ -28,6 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pavel.weathermenuapp.model.WeatherRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,18 +47,14 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private TextView tv_city;
-    private String name;
-    private Button btnSave;
-    private Button btnLoad;
-    private TextInputEditText editCity;
     private TextView textTemp;
     private OpenWeather openWeather;
     private Button getWeather;
     private WeatherDataSource weatherDataSource;
     private WeatherDataReader weatherDataReader;
     private static final int PERMISSION_REQUEST_CODE = 10;
-    private LocationManager locationManager;
-    private String provider;
+    private FusedLocationProviderClient fusedLocationClient;
+
 
 
     @Override
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         InitDataSource();
         initRetrofit();
 
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this,
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             requestMyPermissions();
         }
 
-        //startService(new Intent(MainActivity.this, GetWeatherService.class));
+
 
 
     }
@@ -197,46 +196,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void requestLocation() {
+
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             return;
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 
-        provider = locationManager.getBestProvider(criteria, true);
-        if (provider != null){
-            locationManager.requestLocationUpdates(provider,10000,10, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location (in some rare situations this can be null)
+                        if (location != null) {
 
-                    Double latitude = location.getLatitude();
-                    Double longitude = location.getLongitude();
-//                    textTemp.setText(latitude);
-//                    tv_city.setText(longitude);
-
-                    requestRetrofit(latitude,longitude, getResources().getString(R.string.Celsius),
+                            Double latitude = location.getLatitude();   // Широта
+                            Double longitude = location.getLongitude(); // Долгота
+                            requestRetrofit(latitude,longitude, getResources().getString(R.string.Celsius),
                             getResources().getString(R.string.apiKey));
-                }
+                        }
+                        else
+                            Toast.makeText(MainActivity.this, "can't define location",
+                                    Toast.LENGTH_LONG).show();
+                    }
+                });
 
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-
-                }
-            });
-        }
 
     }
 
@@ -249,31 +233,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//
-//        Paper.book("OptionsBook").write("city", city.getText());
-//        super.onSaveInstanceState(outState);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        name = Paper.book("OptionsBook").read("city");
-//        super.onRestoreInstanceState(savedInstanceState);
-//    }
-
-//    @Override
-//    protected void onStart() {
-//        name = Paper.book("OptionsBook").read("city").toString();
-//        city.setText(name);
-//        super.onStart();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        Paper.book("OptionsBook").write("city", city.getText());
-//        super.onStop();
-//    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
